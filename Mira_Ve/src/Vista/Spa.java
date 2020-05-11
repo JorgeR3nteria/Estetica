@@ -5,6 +5,8 @@
  */
 package Vista;
 
+import javax.swing.ImageIcon;
+
 /**
  *
  * @author jorge
@@ -16,6 +18,9 @@ public class Spa extends javax.swing.JFrame {
      */
     public Spa() {
         initComponents();
+        setLocationRelativeTo(null);
+        setTitle("Centro de estetica - Mira Ve");
+        setIconImage(new ImageIcon(getClass().getResource("/Imagenes/Logo_Estetica.png")).getImage());
     }
 
     /**
