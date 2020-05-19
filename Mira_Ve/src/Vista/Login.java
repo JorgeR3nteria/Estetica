@@ -26,17 +26,17 @@ public class Login extends javax.swing.JFrame {
     }
     
     UsuarioDao usuario = new UsuarioDao();
-    Principal p = new Principal();
+    PrincipalE p = new PrincipalE();
     
         public void Validar(String usuario, String contraseña){
          UsuarioDao u = new UsuarioDao();
-         Principal p = new Principal();
+         PrincipalE p = new PrincipalE();
          String mensaje = UsuarioDao.Login(usuario, contraseña);
          String nombre = null;
             if (mensaje.equals("Correcto"))
                 {
                     JOptionPane.showMessageDialog(null,"Bienvenido al Centro de estetica");
-                    p.setVisible(false);
+                    p.setVisible(true);
                     dispose();
                 }else
                     {
@@ -161,7 +161,7 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ReturnMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ReturnMousePressed
-        Principal p = new Principal();
+        PrincipalE p = new PrincipalE();
         dispose();
     }//GEN-LAST:event_ReturnMousePressed
 

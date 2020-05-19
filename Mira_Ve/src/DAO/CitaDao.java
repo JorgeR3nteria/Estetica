@@ -6,57 +6,54 @@
 package DAO;
 
 import Conexion.conectar;
-import Dto.CitaDto;
-import Dto.NominaDto;
 import Interface.CRUD;
+import Modelo.CitaDto;
+import java.util.List;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 /**
  *
  * @author jorge
  */
 public class CitaDao implements CRUD<CitaDto>
 {
+
         private static final String INSERTAR = "INSERT INTO cita (id_cita,id_cliente,id_servicio,id_empleado,id_prod,f_cita,hora_cita) VALUES (?,?,?,?,?,?,?)";
-        private static final String LEER = "SELECT * FROM cita WHERE id_cita=?";
+        private static final String BUSCAR  = "SELECT * FROM cita WHERE id_cita=?";
+        private static final String ACTUALIZAR = "UPDATE cita SET id_cliente=?, id_servicio=?, id_empleado=?, id_prod=?, f_cita=?, hora_cita=? WHERE id_cita=?";
         private static final String BORRAR = "DELETE FROM cita WHERE id_cita=?";
-        private static final String ACTUALIZAR = "UPDATE cita SET id_cliente=?, id_servicio=?, id_empleado=?, id_prod=?, f_cita=?,hora_cita=? WHERE id_cita=?";
         private static final String READALL = "SELECT * FROM cita";
-        private static final conectar con = conectar.Estado();
-        
+        private static final conectar con = conectar.Estado(); //Este metodo pregunta si la instancia esta creada o no
     @Override
     public boolean create(CitaDto D) 
     {
-        PreparedStatement stat;    
-            
-            try {
-                 stat = con.getConn().prepareStatement(INSERTAR);
+        PreparedStatement stat;
+            try 
+                {
+                 stat = con.getConn().prepareStatement(ACTUALIZAR);
                  stat.setInt(1, D.getId_cita());
                  stat.setInt(2, D.getId_cliente());
                  stat.setInt(3, D.getId_servicio());
                  stat.setInt(4, D.getId_empleado());
                  stat.setInt(5, D.getId_prod());
-                 stat.setDate(6, D.getF_cita());
+                 stat.setString(6, D.getF_cita());
                  stat.setString(7, D.getHora_cita());
-                 
-                    if (stat.executeUpdate() > 0) 
-                      {
-                          return true;
-                      }
-            } catch (SQLException ex) 
-                {
-                 Logger.getLogger(CitaDao.class.getName()).log(Level.SEVERE, null, ex);
-                } finally
-                    { // Es una clausula para cerrar la conexion
-                      con.cerrar();
-                    }
-            return false;        
+                    if (stat.executeUpdate()>0) 
+                            {
+                                return true;
+                            }
+                } catch (SQLException ex) 
+                        {
+                         Logger.getLogger(CitaDao.class.getName()).log(Level.SEVERE, null, ex);
+                        } finally 
+                                {
+                                 con.cerrar();
+                                }
+                return false;
     }
 
     @Override
@@ -64,106 +61,98 @@ public class CitaDao implements CRUD<CitaDto>
     {
         PreparedStatement stat;
         ResultSet res;
-        CitaDto ci = null;
-        
+        CitaDto cd = null;
             try 
-            {
-             stat = con.getConn().prepareStatement(LEER);
-             stat.setString(1, key.toString());
-             
-             res = stat.executeQuery();
-             
-                while (res.next()) 
-                     {
-                      ci = new CitaDto(res.getInt(1), res.getInt(2), res.getInt(3), res.getInt(4), res.getInt(5), res.getDate(6), res.getString(7));
-                     }
-                      return ci;
-            } catch (SQLException ex) 
                 {
-                 Logger.getLogger(NominaDao.class.getName()).log(Level.SEVERE, null, ex);
-                } finally
+                 stat = con.getConn().prepareStatement(BUSCAR);
+                 stat. setString(1, key.toString());
+                 res = stat.executeQuery();
+                       while (res.next())
+                            {
+                                cd = new CitaDto(res.getInt(1),res.getInt(2),res.getInt(3),res.getInt(4),res.getInt(5),res.getString(6),res.getString(7));
+                            }
+                } catch (SQLException ex) 
                     {
-                     con.cerrar();
-                    }
-            return ci;
+                     Logger.getLogger(CitaDao.class.getName()).log(Level.SEVERE, null, ex);
+                    } finally 
+                        {
+                            con.cerrar();
+                        }
+                return cd;
     }
 
     @Override
     public boolean update(CitaDto D) 
     {
         PreparedStatement stat;
-        
-            try {
+            try 
+                {
                  stat = con.getConn().prepareStatement(ACTUALIZAR);
                  stat.setInt(1, D.getId_cliente());
                  stat.setInt(2, D.getId_servicio());
                  stat.setInt(3, D.getId_empleado());
                  stat.setInt(4, D.getId_prod());
-                 stat.setDate(5, D.getF_cita());
-                 stat.setString(3, D.getHora_cita());
-                 stat.setInt(4, D.getId_cita());
-                
-                    if (stat.executeUpdate() > 0 ) 
-                        {
-                         return true;
-                        }
-                    
-                } catch (SQLException ex) 
+                 stat.setString(5, D.getF_cita());
+                 stat.setString(6, D.getHora_cita());
+                 stat.setInt(7, D.getId_cita());
+                 if (stat.executeUpdate()>0)
                     {
-                     Logger.getLogger(CitaDao.class.getName()).log(Level.SEVERE, null, ex);
-                    }finally
+                     return true;
+                    }
+                } catch (SQLException ex) 
                         {
-                         con.cerrar();
-                        }
-            return false;
+                         Logger.getLogger(CitaDao.class.getName()).log(Level.SEVERE, null, ex);
+                        } finally
+                                {
+                                    con.cerrar();
+                                }
+                return false;
     }
 
     @Override
     public boolean delete(Object key) 
     {
-         PreparedStatement stat;
+        PreparedStatement stat;
             try 
                 {
                  stat = con.getConn().prepareStatement(BORRAR);
                  stat.setString(1, key.toString());
-                 
-                    if (stat.executeUpdate() >0) 
+                      if (stat.executeUpdate() > 0)
                         {
                          return true;
                         }
                 } catch (SQLException ex) 
                     {
                      Logger.getLogger(CitaDao.class.getName()).log(Level.SEVERE, null, ex);
-                    }finally
-                        {
-                         con.cerrar();
-                        }
-            return false;
+                    } finally 
+                            {
+                                con.cerrar();
+                            }
+                return false;
     }
 
     @Override
     public List<CitaDto> readall() 
     {
         PreparedStatement stat;
-        ArrayList<CitaDto> cita = new ArrayList();
         ResultSet res;
+        ArrayList<CitaDto> cita = new ArrayList();
             try 
                 {
                  stat = con.getConn().prepareStatement(READALL);
                  res = stat.executeQuery();
-                 
-                    while (res.next()) 
-                        {
-                         cita.add(new CitaDto(res.getInt(1), res.getInt(2), res.getInt(3), res.getInt(4), res.getInt(5), res.getDate(6), res.getString(7)));
-                        }
+                      while (res.next())
+                            {
+                             cita.add(new CitaDto(res.getInt(1),res.getInt(2),res.getInt(3),res.getInt(4),res.getInt(5),res.getString(6),res.getString(7)));
+                            }
                 } catch (SQLException ex) 
                     {
                      Logger.getLogger(CitaDao.class.getName()).log(Level.SEVERE, null, ex);
-                    } finally
+                    } finally 
                         {
-                          con.cerrar();
+                            con.cerrar();
                         }
-            return cita;
+                return cita;
     }
     
 }

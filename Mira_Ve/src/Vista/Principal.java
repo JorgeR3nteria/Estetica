@@ -221,6 +221,7 @@ public final class Principal extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         Login l = new Login();
         l.show(true);
+        dispose();
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -230,36 +231,8 @@ public final class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_InfoMousePressed
 
     private void ServicioMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ServicioMousePressed
-        String[] Servicios = {"Peluqueria", "Manicure y Pedicure", "Maquillaje", "Spa", "Tratamiento Facial", "Tratamiento Corporal"};
-
-        String res = (String) JOptionPane.showInputDialog(null, "¿Que servicio desea tomar?", "Centro de estetica - Mira Ve", 
-                JOptionPane.DEFAULT_OPTION, null, Servicios, Servicios[0]);
-
-        if (res == Servicios[0]) 
-           {
-            Peluqueria opc= new Peluqueria();
-            opc.show(true);
-           } else if (res == Servicios[1]) 
-                {
-                 Manicure opc1 = new Manicure();
-                 opc1.show(true);
-                } else if (res == Servicios[2]) 
-                    {
-                     Maquillaje opc2 = new Maquillaje();
-                     opc2.show(true);
-                    }else if (res == Servicios [3])
-                        {
-                         Spa opc3 = new Spa();
-                         opc3.show(true);
-                        }else if (res == Servicios[4])
-                            {
-                             Tratamiento opc4 = new Tratamiento();
-                             opc4.show(true);
-                            }else if (res == Servicios[5])
-                                {
-                                 Tratamientos opc5 = new Tratamientos();
-                                 opc5.show(true);
-                                }
+        Servicios s = new Servicios();
+        s.show();
     }//GEN-LAST:event_ServicioMousePressed
 
     private void ExitMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ExitMousePressed

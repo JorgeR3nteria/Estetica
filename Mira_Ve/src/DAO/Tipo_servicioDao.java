@@ -6,9 +6,8 @@
 package DAO;
 
 import Conexion.conectar;
-import Dto.Tipo_servicioDto;
-import Dto.Tipo_usuarioDto;
 import Interface.CRUD;
+import Modelo.Tipo_servicioDto;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,37 +20,36 @@ import java.util.logging.Logger;
  *
  * @author jorge
  */
-public class Tipo_servicioDao implements CRUD<Tipo_servicioDto>{
-    
-        private static final String INSERTAR = "INSERT INTO tipo_servicio (id_tservicio,t_servicio) VALUES (?,?)";
-        private static final String LEER = "SELECT * FROM tipo_servicio WHERE id_tservicio=?";
-        private static final String BORRAR = "DELETE FROM tipo_servicio WHERE id_tservicio=?";
+public class Tipo_servicioDao implements CRUD<Tipo_servicioDto>
+{
+        private static final String INSERTAR = "INSERT INTO tipo_servicio (id_tservicio,t_servicio) VALUES (?,?))";
+        private static final String BUSCAR  = "SELECT * FROM tipo_servicio WHERE id_tservicio=?";
         private static final String ACTUALIZAR = "UPDATE tipo_servicio SET t_servicio=? WHERE id_tservicio=?";
+        private static final String BORRAR = "DELETE FROM tipo_servicio WHERE id_tservicio=?";
         private static final String READALL = "SELECT * FROM tipo_servicio";
-        private static final conectar con = conectar.Estado();
+        private static final conectar con = conectar.Estado(); //Este metodo pregunta si la instancia esta creada o no
 
     @Override
     public boolean create(Tipo_servicioDto D) 
     {
-        PreparedStatement stat;    
-            
-            try {
+        PreparedStatement stat;
+            try 
+                {
                  stat = con.getConn().prepareStatement(INSERTAR);
                  stat.setInt(1, D.getId_tservicio());
                  stat.setString(2, D.getT_servicio());
-                 
-                    if (stat.executeUpdate() > 0) 
-                      {
-                          return true;
-                      }
-            } catch (SQLException ex) 
-                {
-                 Logger.getLogger(Tipo_servicioDao.class.getName()).log(Level.SEVERE, null, ex);
-                } finally
-                    { // Es una clausula para cerrar la conexion
-                      con.cerrar();
-                    }
-            return false;
+                    if (stat.executeUpdate() > 0 ) 
+                        {
+                         return true;
+                        }
+                } catch (SQLException ex) 
+                    {
+                     Logger.getLogger(Tipo_servicioDao.class.getName()).log(Level.SEVERE, null, ex);
+                    } finally 
+                        {
+                            con.cerrar();
+                        }
+                return false;
     }
 
     @Override
@@ -59,53 +57,47 @@ public class Tipo_servicioDao implements CRUD<Tipo_servicioDto>{
     {
         PreparedStatement stat;
         ResultSet res;
-        Tipo_servicioDto t = null;
-        
+        Tipo_servicioDto ts = null;
             try 
-            {
-             stat = con.getConn().prepareStatement(LEER);
-             stat.setString(1, key.toString());
-             
-             res = stat.executeQuery();
-             
-                while (res.next()) 
-                     {
-                      t = new Tipo_servicioDto(res.getInt(1), res.getString(2));
-                     }
-                      return t;
-            } catch (SQLException ex) 
                 {
-                 Logger.getLogger(Tipo_servicioDao.class.getName()).log(Level.SEVERE, null, ex);
-                } finally
+                 stat = con.getConn().prepareStatement(BUSCAR);
+                 stat. setString(1, key.toString());
+                 res = stat.executeQuery();
+                    while (res.next()) 
+                        {
+                         ts = new Tipo_servicioDto(res.getInt(1),res.getString(2));
+                        }
+                } catch (SQLException ex) 
                     {
-                     con.cerrar();
-                    }
-            return t;
+                     Logger.getLogger(Tipo_servicioDao.class.getName()).log(Level.SEVERE, null, ex);
+                    } finally
+                        {
+                            con.cerrar();
+                        }
+                return ts;   
     }
 
     @Override
     public boolean update(Tipo_servicioDto D) 
     {
         PreparedStatement stat;
-        
-            try {
+            try 
+                {
                  stat = con.getConn().prepareStatement(ACTUALIZAR);
                  stat.setString(1, D.getT_servicio());
                  stat.setInt(2, D.getId_tservicio());
-                
-                    if (stat.executeUpdate() > 0 ) 
+                    if (stat.executeUpdate() > 0) 
                         {
                          return true;
                         }
-                    
                 } catch (SQLException ex) 
                     {
                      Logger.getLogger(Tipo_servicioDao.class.getName()).log(Level.SEVERE, null, ex);
-                    }finally
+                    } finally 
                         {
-                         con.cerrar();
+                            con.cerrar();
                         }
-            return false;
+                return false;
     }
 
     @Override
@@ -116,44 +108,42 @@ public class Tipo_servicioDao implements CRUD<Tipo_servicioDto>{
                 {
                  stat = con.getConn().prepareStatement(BORRAR);
                  stat.setString(1, key.toString());
-                 
-                    if (stat.executeUpdate() >0) 
-                        {
-                         return true;
-                        }
-                } catch (SQLException ex) 
+                    if (stat.executeUpdate() > 0) 
                     {
-                     Logger.getLogger(Tipo_servicioDao.class.getName()).log(Level.SEVERE, null, ex);
-                    }finally
+                     return true;   
+                    }
+                } catch (SQLException ex) 
                         {
-                         con.cerrar();
-                        }
-            return false;
+                         Logger.getLogger(Tipo_servicioDao.class.getName()).log(Level.SEVERE, null, ex);
+                        } finally 
+                            {
+                                con.cerrar();
+                            }
+                return false;
     }
 
     @Override
     public List<Tipo_servicioDto> readall() 
     {
         PreparedStatement stat;
-        ArrayList<Tipo_servicioDto> tipo_servicio = new ArrayList();
         ResultSet res;
+        ArrayList<Tipo_servicioDto> tipo_servicio = new ArrayList();
             try 
                 {
                  stat = con.getConn().prepareStatement(READALL);
                  res = stat.executeQuery();
-                 
                     while (res.next()) 
                         {
-                         tipo_servicio.add(new Tipo_servicioDto(res.getInt(1), res.getString(2)));
+                         tipo_servicio.add(new Tipo_servicioDto(res.getInt(1),res.getString(2)));
                         }
                 } catch (SQLException ex) 
                     {
                      Logger.getLogger(Tipo_servicioDao.class.getName()).log(Level.SEVERE, null, ex);
-                    } finally
+                    } finally 
                         {
-                          con.cerrar();
+                            con.cerrar();
                         }
-            return tipo_servicio;
+                return tipo_servicio;
     }
     
 }

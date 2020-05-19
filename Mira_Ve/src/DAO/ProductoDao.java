@@ -6,9 +6,8 @@
 package DAO;
 
 import Conexion.conectar;
-import Dto.ProductoDto;
-import Dto.ServicioDto;
 import Interface.CRUD;
+import Modelo.ProductoDto;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,87 +22,82 @@ import java.util.logging.Logger;
  */
 public class ProductoDao implements CRUD<ProductoDto>
 {
-        private static final String INSERTAR = "INSERT INTO producto (id_prod,nombre,descripcion,vlr_prod) VALUES (?,?,?,?)";
-        private static final String LEER = "SELECT * FROM producto WHERE id_prod=?";
+
+        private static final String INSERTAR = "INSERT INTO producto (id_prod,nom_prod,descripcion,vlr_prod) VALUES (?,?,?,?)";
+        private static final String BUSCAR  = "SELECT * FROM producto WHERE id_prod=?";
+        private static final String ACTUALIZAR = "UPDATE producto SET nom_prod=?, descripcion=?, vlr_prod=? WHERE id_prod=?";
         private static final String BORRAR = "DELETE FROM producto WHERE id_prod=?";
-        private static final String ACTUALIZAR = "UPDATE producto SET nombre=?,descripcion=?,vlr_prod=? WHERE id_prod=?";
         private static final String READALL = "SELECT * FROM producto";
-        private static final conectar con = conectar.Estado();
+        private static final conectar con = conectar.Estado(); //Este metodo pregunta si la instancia esta creada o no
         
     @Override
     public boolean create(ProductoDto D) 
     {
-        PreparedStatement stat;    
-            
-            try {
+        PreparedStatement stat;
+            try 
+                {
                  stat = con.getConn().prepareStatement(INSERTAR);
                  stat.setInt(1, D.getId_prod());
                  stat.setString(2, D.getNom_prod());
                  stat.setString(3, D.getDescripcion());
                  stat.setInt(4, D.getVlr_prod());
-                 
-                    if (stat.executeUpdate() > 0) 
-                      {
-                          return true;
-                      }
-            } catch (SQLException ex) 
-                {
-                 Logger.getLogger(ProductoDao.class.getName()).log(Level.SEVERE, null, ex);
-                } finally
-                    { // Es una clausula para cerrar la conexion
-                      con.cerrar();
-                    }
-            return false;
+                    if (stat.executeUpdate() >0) 
+                        {
+                         return true;
+                        }
+                } catch (SQLException ex) 
+                    {
+                     Logger.getLogger(ProductoDao.class.getName()).log(Level.SEVERE, null, ex);
+                    } finally 
+                        {
+                            con.cerrar();
+                        }
+                return false;
     }
 
     @Override
-    public ProductoDto read(Object key) {
+    public ProductoDto read(Object key) 
+    {
         PreparedStatement stat;
         ResultSet res;
         ProductoDto p = null;
-        
-            try 
-            {
-             stat = con.getConn().prepareStatement(LEER);
-             stat.setString(1, key.toString());
-             
-             res = stat.executeQuery();
-             
+            try {
+                stat = con.getConn().prepareStatement(BUSCAR);
+                stat. setString(1, key.toString());
+                res = stat.executeQuery();
                 while (res.next()) 
-                     {
-                      p = new ProductoDto(res.getInt(1), res.getString(2), res.getString(3), res.getInt(4));
-                     }
-                      return p;
-            } catch (SQLException ex) 
-                {
-                 Logger.getLogger(ProductoDao.class.getName()).log(Level.SEVERE, null, ex);
-                } finally
-                    {
-                     con.cerrar();
+                    {                    
+                     p = new ProductoDto(res.getInt(1),res.getString(2),res.getString(3),res.getInt(4));
                     }
-            return p;
+                } catch (SQLException ex) 
+                        {
+                         Logger.getLogger(ProductoDao.class.getName()).log(Level.SEVERE, null, ex);
+                        } finally 
+                            {
+                                con.cerrar();
+                            }
+                return p;
     }
 
     @Override
-    public boolean update(ProductoDto D) {
+    public boolean update(ProductoDto D) 
+    {
         PreparedStatement stat;
-        
-            try {
+            try 
+                {
                  stat = con.getConn().prepareStatement(ACTUALIZAR);
                  stat.setString(1, D.getNom_prod());
                  stat.setString(2, D.getDescripcion());
                  stat.setInt(3, D.getVlr_prod());
                  stat.setInt(4, D.getId_prod());
-                
-                    if (stat.executeUpdate() > 0 ) 
+                    if (stat.executeUpdate()>0) 
                         {
                          return true;
                         }
-                    
                 } catch (SQLException ex) 
                     {
                      Logger.getLogger(ProductoDao.class.getName()).log(Level.SEVERE, null, ex);
-                    }finally
+                    } finally 
                         {
                          con.cerrar();
                         }
@@ -118,43 +112,42 @@ public class ProductoDao implements CRUD<ProductoDto>
                 {
                  stat = con.getConn().prepareStatement(BORRAR);
                  stat.setString(1, key.toString());
-                 
-                    if (stat.executeUpdate() >0) 
+                   if (stat.executeUpdate() > 0)
                         {
                          return true;
                         }
                 } catch (SQLException ex) 
                     {
                      Logger.getLogger(ProductoDao.class.getName()).log(Level.SEVERE, null, ex);
-                    }finally
+                    } finally 
                         {
-                         con.cerrar();
+                            con.cerrar();
                         }
-            return false;
+                return false;
     }
 
     @Override
-    public List<ProductoDto> readall() {
+    public List<ProductoDto> readall() 
+    {
         PreparedStatement stat;
-        ArrayList<ProductoDto> producto = new ArrayList();
         ResultSet res;
+        ArrayList<ProductoDto> producto = new ArrayList();
             try 
                 {
                  stat = con.getConn().prepareStatement(READALL);
                  res = stat.executeQuery();
-                 
                     while (res.next()) 
                         {
-                         producto.add(new ProductoDto(res.getInt(1), res.getString(2), res.getString(3), res.getInt(4)));
+                         producto.add(new ProductoDto(res.getInt(1),res.getString(2),res.getString(3),res.getInt(4)));
                         }
                 } catch (SQLException ex) 
                     {
                      Logger.getLogger(ProductoDao.class.getName()).log(Level.SEVERE, null, ex);
-                    } finally
+                    } finally 
                         {
-                          con.cerrar();
+                            con.cerrar();
                         }
-            return producto;
+                return producto;
     }
     
 }
