@@ -205,7 +205,7 @@ public class Servicios extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void CitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CitaActionPerformed
-        FrCita c = new FrCita();
+        Cita c = new Cita();
         c.show(true);
         dispose();
     }//GEN-LAST:event_CitaActionPerformed

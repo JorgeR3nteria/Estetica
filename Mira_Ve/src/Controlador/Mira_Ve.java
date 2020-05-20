@@ -11,7 +11,10 @@ import java.awt.event.ActionListener;
  *
  * @author jorge
  */
-public class Inicio implements ActionListener
-{
-    
-}
+    public class Mira_Ve {
+        
+        public static void main(String[] args) {
+            
+        }
+     }
+
