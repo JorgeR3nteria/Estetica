@@ -12,6 +12,7 @@ import Vista.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -19,15 +20,15 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author jorge
  */
-public class Cita implements ActionListener
-{ //Vista.Cita V = new Vista.Cita();
+public class CitaC implements ActionListener
+{ //Vista.CitaC V = new Vista.CitaC();
     CitaE E = new CitaE();
     CitaDao A = new CitaDao();
     ClienteDao C = new ClienteDao();
     Tipo_servicioDao P = new Tipo_servicioDao();
     ServicioDao S = new ServicioDao();
 
-    public Cita(Vista.Cita V, CitaE E, CitaDao A, ClienteDao C, Tipo_servicioDao P, ServicioDao S) 
+    public CitaC(Vista.Cita V, CitaE E, CitaDao A, ClienteDao C, Tipo_servicioDao P, ServicioDao S) 
         {
             this.A = A;
             this.C = C;
@@ -42,6 +43,10 @@ public class Cita implements ActionListener
             E.RbtnAct.addActionListener(this);
             
         }
+
+    CitaC(CitaE vista, ClienteDao cliente) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     public void Crud() //Se inicializa el crud
         {
@@ -144,7 +149,7 @@ public class Cita implements ActionListener
         if (e.getSource() == E.RbtnAgre) 
             {
              String Id_cliente = E.txtId.getText();
-             String Documento = E.txtName.getText();
+             String Nombre = E.txtName.getText();
              String Apellido_1 = E.txtAp1.getText();
              String Apellido_2 = E.txtAp2.getText();
              String Telefono = E.txtTel.getText();
@@ -152,7 +157,19 @@ public class Cita implements ActionListener
              SimpleDateFormat Fecha = new SimpleDateFormat("yyyy-MM-dd");
              String fecha = Fecha.format(E.Date.getDate());
              String Hora = E.txtHora.getText();
+             
+             String Answer = C.create(Id_cliente, Nombre, Apellido_1, Apellido_2, Telefono, Correo, Fecha, Hora);
+                if (Answer!=null) 
+                    {
+                        JOptionPane.showMessageDialog(null,Answer);
+                    } else 
+                        {
+                         JOptionPane.showMessageDialog(null,"Error al guardar registro");
+                        }
             }
-
+            if (e.getSource()==E.RbtnAct) 
+                {
+                    Tabla(E.Jtdatos);
+                }
     }
 }

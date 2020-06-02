@@ -17,7 +17,7 @@ public class conectar
     public static conectar instance; //Me va a servir para el singleton
     private static Connection conn; 
             
-    private conectar() throws SQLException
+    public conectar() throws SQLException
     {
         try 
         {

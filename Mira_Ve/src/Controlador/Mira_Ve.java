@@ -5,7 +5,10 @@
  */
 package Controlador;
 
-import java.awt.event.ActionListener;
+import Modelo.*;
+import Vista.*;
+import Controlador.*;
+import DAO.ClienteDao;
 
 /**
  *
@@ -14,7 +17,9 @@ import java.awt.event.ActionListener;
     public class Mira_Ve {
         
         public static void main(String[] args) {
-            
+            CitaE vista = new CitaE();
+            ClienteDao cliente = new ClienteDao();
+            CitaC Controlador = new CitaC(vista,cliente);
         }
      }
 

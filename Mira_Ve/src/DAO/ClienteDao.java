@@ -11,6 +11,7 @@ import Modelo.ClienteDto;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -161,6 +162,10 @@ public class ClienteDao implements CRUD<ClienteDto>
                                 con.cerrar();
                             }
                 return cliente;
+    }
+
+    public String create(String Id_cliente, String Nombre, String Apellido_1, String Apellido_2, String Telefono, String Correo, SimpleDateFormat Fecha, String Hora) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

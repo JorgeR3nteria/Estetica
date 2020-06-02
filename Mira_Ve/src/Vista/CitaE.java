@@ -5,6 +5,8 @@
  */
 package Vista;
 
+import DAO.ServicioDao;
+import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
 /**
@@ -21,6 +23,10 @@ public class CitaE extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setTitle("Centro de estetica - Mira Ve");
         setIconImage(new ImageIcon(getClass().getResource("/Imagenes/Logo_Estetica.png")).getImage());
+        cbxServ.removeAllItems();
+        cbxT_servicio.removeAllItems();
+        ArrayList<String> lista = new ArrayList<String>();
+        
     }
 
     /**
@@ -54,14 +60,14 @@ public class CitaE extends javax.swing.JFrame {
         txtTel = new javax.swing.JTextField();
         Date = new com.toedter.calendar.JDateChooser();
         jLabel11 = new javax.swing.JLabel();
-        CbxT_servicio = new javax.swing.JComboBox<>();
+        cbxT_servicio = new javax.swing.JComboBox<>();
         jLabel12 = new javax.swing.JLabel();
         RbtnMod = new javax.swing.JRadioButton();
         JrbtnEliminar = new javax.swing.JRadioButton();
         RbtnAct = new javax.swing.JRadioButton();
         jRadioButton4 = new javax.swing.JRadioButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        Jtdatos = new javax.swing.JTable();
         jLabel13 = new javax.swing.JLabel();
         txtHora = new javax.swing.JTextField();
 
@@ -166,7 +172,7 @@ public class CitaE extends javax.swing.JFrame {
             }
         });
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        Jtdatos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null, null},
@@ -185,18 +191,18 @@ public class CitaE extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTable2);
-        if (jTable2.getColumnModel().getColumnCount() > 0) {
-            jTable2.getColumnModel().getColumn(0).setResizable(false);
-            jTable2.getColumnModel().getColumn(1).setResizable(false);
-            jTable2.getColumnModel().getColumn(2).setResizable(false);
-            jTable2.getColumnModel().getColumn(3).setResizable(false);
-            jTable2.getColumnModel().getColumn(4).setResizable(false);
-            jTable2.getColumnModel().getColumn(5).setResizable(false);
-            jTable2.getColumnModel().getColumn(6).setResizable(false);
-            jTable2.getColumnModel().getColumn(7).setResizable(false);
-            jTable2.getColumnModel().getColumn(8).setResizable(false);
-            jTable2.getColumnModel().getColumn(9).setResizable(false);
+        jScrollPane2.setViewportView(Jtdatos);
+        if (Jtdatos.getColumnModel().getColumnCount() > 0) {
+            Jtdatos.getColumnModel().getColumn(0).setResizable(false);
+            Jtdatos.getColumnModel().getColumn(1).setResizable(false);
+            Jtdatos.getColumnModel().getColumn(2).setResizable(false);
+            Jtdatos.getColumnModel().getColumn(3).setResizable(false);
+            Jtdatos.getColumnModel().getColumn(4).setResizable(false);
+            Jtdatos.getColumnModel().getColumn(5).setResizable(false);
+            Jtdatos.getColumnModel().getColumn(6).setResizable(false);
+            Jtdatos.getColumnModel().getColumn(7).setResizable(false);
+            Jtdatos.getColumnModel().getColumn(8).setResizable(false);
+            Jtdatos.getColumnModel().getColumn(9).setResizable(false);
         }
 
         jLabel13.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
@@ -265,7 +271,7 @@ public class CitaE extends javax.swing.JFrame {
                                 .addGap(53, 53, 53)
                                 .addComponent(jLabel11)
                                 .addGap(18, 18, 18)
-                                .addComponent(CbxT_servicio, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(cbxT_servicio, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -343,7 +349,7 @@ public class CitaE extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(CbxT_servicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cbxT_servicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel10)
@@ -415,13 +421,14 @@ public class CitaE extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JComboBox<String> CbxT_servicio;
     public com.toedter.calendar.JDateChooser Date;
     public javax.swing.JRadioButton JrbtnEliminar;
+    public javax.swing.JTable Jtdatos;
     public javax.swing.JRadioButton RbtnAct;
     public javax.swing.JRadioButton RbtnAgre;
     public javax.swing.JRadioButton RbtnMod;
     public javax.swing.JComboBox<String> cbxServ;
+    public javax.swing.JComboBox<String> cbxT_servicio;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -439,7 +446,6 @@ public class CitaE extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
-    public javax.swing.JTable jTable2;
     public javax.swing.JTextField txtAp1;
     public javax.swing.JTextField txtAp2;
     public javax.swing.JTextField txtEmail;
